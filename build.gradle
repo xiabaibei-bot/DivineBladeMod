@@ -18,11 +18,13 @@ dependencies {
     implementation "net.neoforged:neoforge:20.4.179"
 }
 
-minecraft {
-    version = "1.20.1"
-    mappings channel: 'official', version: '1.20.1'
-}
+// NeoGradle 7.x 不需要额外的 minecraft 配置块
+// 版本信息已经在依赖中定义
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+// 如果需要配置运行客户端/服务器，可以添加以下配置
+// 但这通常不是构建所必需的
+sourceSets.main.resources { srcDir 'src/generated/resources' }
