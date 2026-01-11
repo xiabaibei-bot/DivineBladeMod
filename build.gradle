@@ -15,9 +15,58 @@ repositories {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:20.4.205"
+    // NeoForge for 1.20.1
+    implementation "net.neoforged:neoforge:20.4.179"
+}
+
+minecraft {
+    // 1.20.1配置
+    version = project.minecraft_version
+    mappings {
+        channel = 'official'
+        version = project.minecraft_version
+    }
+    
+    // NeoGradle 附加配置
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            
+            // 推荐的日志级别
+            property 'forge.logging.console.level', 'debug'
+            
+            // 启用混合器
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            
+            mods {
+                divineblade {
+                    source sourceSets.main
+                }
+            }
+        }
+        
+        client {
+            client()
+        }
+        
+        server {
+            server()
+        }
+        
+        data {
+            data()
+            
+            args '--mod', 'divineblade', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+// 确保资源包含模组元数据
+sourceSets.main.resources { srcDir 'src/generated/resources' }
