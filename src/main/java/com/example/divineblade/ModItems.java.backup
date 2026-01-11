@@ -5,12 +5,13 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.minecraft.core.registries.Registries;
 import java.util.function.Supplier;
 
 public class ModItems {
-    public static final DeferredRegister<Item> ITEMS =
+    // NeoForge 使用 DeferredRegister.create() 而不是 DeferredRegister.createItems()
+    public static final DeferredRegister<Item> ITEMS = 
             DeferredRegister.create(Registries.ITEM, DivineBladeMod.MODID);
 
     public static final Tier DIVINE_TIER = new Tier() {
@@ -22,11 +23,12 @@ public class ModItems {
         @Override public Ingredient getRepairIngredient() { return Ingredient.EMPTY; }
     };
 
-    public static final DeferredHolder<Item, Item> DIVINE_BLADE =
+    // NeoForge 使用 DeferredItem 而不是 RegistryObject
+    public static final DeferredItem<Item> DIVINE_BLADE = 
             ITEMS.register("divine_blade", () -> new DivineBladeItem(
-                    DIVINE_TIER,
-                    3,
-                    -2.4f,
+                    DIVINE_TIER, 
+                    3, // 攻击伤害加成
+                    -2.4f, // 攻击速度
                     new Item.Properties()
                             .rarity(Rarity.EPIC)
                             .fireResistant()

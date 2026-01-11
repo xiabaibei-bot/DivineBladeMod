@@ -26,7 +26,7 @@ public class DivineBladeItem extends SwordItem {
 
     @Override
     public boolean isFoil(ItemStack stack) {
-        return true; // 即使不附魔也有紫色流光
+        return true;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DivineBladeItem extends SwordItem {
         if (!level.isClientSide) {
             Vec3 center = player.position();
             AABB box = new AABB(center.subtract(RADIUS, RADIUS, RADIUS), center.add(RADIUS, RADIUS, RADIUS));
-            List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, box, 
+            List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, box,
                 e -> e != player && e.distanceToSqr(player) <= RADIUS * RADIUS);
             for (LivingEntity target : targets) {
                 target.hurt(level.damageSources().playerAttack(player), DIVINE_DAMAGE);
@@ -59,12 +59,18 @@ public class DivineBladeItem extends SwordItem {
         if (isHolding) {
             player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 20, 3, false, false));
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
-            player.getActiveEffects().stream().filter(i -> i.getEffect().isBad()).map(MobEffectInstance::getEffect).forEach(player::removeEffect);
+            // 移除负面效果
+            player.getActiveEffects().stream()
+                .filter(i -> i.getEffect().isBeneficial() == false)
+                .map(MobEffectInstance::getEffect)
+                .forEach(player::removeEffect);
             if (!player.getAbilities().mayfly) {
                 player.getAbilities().mayfly = true;
                 if (player instanceof ServerPlayer sp) sp.onUpdateAbilities();
             }
-            if (stack.hasTag()) { stack.getOrCreateTag().putInt("HideFlags", 127); }
+            if (stack.hasTag()) { 
+                stack.getOrCreateTag().putInt("HideFlags", 127); 
+            }
         } else if (player.getAbilities().mayfly && !player.isCreative() && !player.isSpectator()) {
             player.getAbilities().mayfly = false;
             player.getAbilities().flying = false;
@@ -73,7 +79,12 @@ public class DivineBladeItem extends SwordItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, net.minecraft.world.level.block.state.BlockState state) { return 1000f; }
+    public float getDestroySpeed(ItemStack stack, net.minecraft.world.level.block.state.BlockState state) { 
+        return 1000f; 
+    }
+    
     @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, net.minecraft.world.level.block.state.BlockState state) { return true; }
+    public boolean isCorrectToolForDrops(ItemStack stack, net.minecraft.world.level.block.state.BlockState state) { 
+        return true; 
+    }
 }

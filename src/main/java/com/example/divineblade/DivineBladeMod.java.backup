@@ -23,15 +23,14 @@ public class DivineBladeMod {
 
         // 注册事件处理器 - 使用 NeoForge.EVENT_BUS
         NeoForge.EVENT_BUS.register(EventHandlers.class);
-
+        
         // 注册命令
         NeoForge.EVENT_BUS.addListener(this::onRegisterCommands);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            // 使用 get() 方法获取实际的 Item 对象
-            event.accept(ModItems.DIVINE_BLADE.get());
+            event.accept(ModItems.DIVINE_BLADE);
         }
     }
 
