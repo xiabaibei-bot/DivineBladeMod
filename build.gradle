@@ -2,9 +2,38 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.142'
 }
 
-apply plugin: 'java'
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            
+            mods {
+                divineblade {
+                    source sourceSets.main
+                }
+            }
+        }
+        
+        client {
+            client()
+        }
+        
+        server {
+            server()
+        }
+    }
+}
 
 repositories {
     maven {
@@ -20,4 +49,18 @@ dependencies {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest {
+        attributes([
+            "Specification-Title"     : "divineblade",
+            "Specification-Vendor"    : "YouTube",
+            "Specification-Version"   : "1",
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : project.jar.archiveVersion,
+            "Implementation-Vendor"   : "YouTube",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }

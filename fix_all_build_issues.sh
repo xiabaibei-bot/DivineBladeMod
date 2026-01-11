@@ -1,3 +1,12 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+cd ~/DivineBladeMod
+
+echo "=== 修复所有构建问题 ==="
+
+# 1. 更新 GitHub Actions 配置
+mkdir -p .github/workflows
+cat > .github/workflows/build.yml << 'ACTIONEOF'
 name: Build DivineBlade Mod
 
 on:
@@ -44,3 +53,18 @@ jobs:
         name: DivineBlade-Mod
         path: build/libs/*.jar
         retention-days: 7
+ACTIONEOF
+
+# 2. 确保有必要的目录结构
+mkdir -p src/main/resources/META-INF
+
+# 3. 提交并推送
+git add .
+git commit -m "Fix build configuration: update GitHub Actions and build.gradle"
+git push
+
+echo "修复已提交！"
+echo "查看构建状态: https://github.com/xiabaibei-bot/DivineBladeMod/actions"
+echo ""
+echo "预计构建时间: 5-10分钟"
+echo "如果构建失败，请将错误信息发给我"
