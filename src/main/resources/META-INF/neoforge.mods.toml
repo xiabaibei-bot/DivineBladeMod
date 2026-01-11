@@ -1,7 +1,6 @@
 modLoader="javafml"
-loaderVersion="[14,)"
-license="All Rights Reserved"
-issueTrackerURL="https://github.com/yourusername/divineblademod/issues"
+loaderVersion="[20,)"
+license="MIT"
 
 [[mods]]
 modId="divineblade"
@@ -11,18 +10,17 @@ authors="YourName"
 description='''
 A divine weapon with absolute power.
 '''
-logoFile="logo.png"
 
 [[dependencies.divineblade]]
-    modId="neoforge"
-    mandatory=true
-    versionRange="[20.4.179,20.5)"  # 只匹配1.20.1的NeoForge
-    ordering="NONE"
-    side="BOTH"
+modId="neoforge"
+mandatory=true
+versionRange="[20.4.179,)"
+ordering="NONE"
+side="BOTH"
 
 [[dependencies.divineblade]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.20.1,1.20.2)"  # 只匹配1.20.1
-    ordering="NONE"
-    side="BOTH"
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
