@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[14,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="divineblade"
+version="${file.jarVersion}"  # 使用 Gradle 变量
+displayName="Divine Blade"
+authors="YourName"
+description='''
+A divine weapon with absolute power.
+'''
+
+[[dependencies.divineblade]]
+modId="neoforge"
+mandatory=true
+versionRange="[20.4.205,)"  # 更具体的版本
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.divineblade]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
